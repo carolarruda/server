@@ -9,6 +9,7 @@ export const getAll = async (req, res) => {
     }
     return sendDataResponse(res, 201, gettingUsers)
   } catch (error) {
+    console.log(error)
     return sendErrorResponse(res, 500, 'Unable to get users')
   }
 }

@@ -2,7 +2,7 @@ import User from '../domain/user.js'
 import { emailValidation } from '../utils/emailValidation.js'
 import { passwordValidation } from '../utils/passwordValidation.js'
 import { sendDataResponse, sendErrorResponse } from '../utils/responses.js'
-import { deleteUser } from '../domain/user.js'
+
 
 const validatePasswordLength = (password) => {
   if (password.length < 8) {
@@ -211,7 +211,7 @@ export const deleteById  = async (req, res) => {
         'You are unauthorized to delete this post'
       )
     }
-    const deletingUser = await deleteUser(userId)
+    const deletingUser = await User.deleteUser(userId)
     return sendDataResponse(res, 200, deletingUser)
   } catch (e) {
     console.log(e);

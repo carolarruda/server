@@ -224,22 +224,22 @@ export default class User {
 
     return updatedProfile
   }
+
+  static async deleteUser(userId) {
+    await dbClient.profile.delete({
+      where: {
+        id: userId
+      }
+    });
+    return await dbClient.user.delete({
+      where: {
+        id: userId
+      },
+      include: {
+        profile: true
+      }
+    })
+  }
 }
 
 
-export async function deleteUser(userId) {
-  await dbClient.profile.delete({
-    where: {
-      id: userId
-    }
-  });
-  console.log(`delete`);
-  return await dbClient.user.delete({
-    where: {
-      id: userId
-    },
-    include: {
-      profile: true
-    }
-  })
-}

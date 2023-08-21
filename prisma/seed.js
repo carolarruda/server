@@ -13,8 +13,8 @@ async function seed() {
   const admnin = await createUser(
     'admnin@test.com',
     'Testpassword1!',
-    'Louis',
-    'Sanchez',
+    'Carolina',
+    'Arruda',
     'Hello there!',
     'ADMNIN'
   )

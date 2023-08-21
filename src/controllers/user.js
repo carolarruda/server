@@ -1,26 +1,3 @@
-// import { getAllUsers, getUserByEmail } from '../domain/user.js'
-// import { sendDataResponse, sendErrorResponse } from '../utils/responses.js'
-
-// export const getAll = async (req, res) => {
-//   const { email } = req.query
-//   let foundUser
-//   if(email){
-//     foundUser = await getUserByEmail(email)
-//     return sendDataResponse(res, 200, foundUser)
-//   }
-//   try {
-//     const gettingUsers = await getAllUsers()
-//     if (gettingUsers.length === 0) {
-//       return sendErrorResponse(res, 404, 'No users found')
-//     }
-//     return sendDataResponse(res, 200, gettingUsers)
-//   } catch (error) {
-//     console.log(error)
-//     return sendErrorResponse(res, 500, 'Unable to get users')
-//   }
-// }
-
-
 import User from '../domain/user.js'
 import { emailValidation } from '../utils/emailValidation.js'
 import { passwordValidation } from '../utils/passwordValidation.js'
@@ -59,9 +36,11 @@ export const create = async (req, res) => {
   const passwordValidate = validatePasswordLength(password)
 
   const userToCreate = await User.fromJson(req.body)
+  console.log(userToCreate)
 
   try {
     if (passwordValidate.status === 'error') {
+      console.log(passwordValidate.status)
       return sendErrorResponse(res, 400, passwordValidate.message)
     }
 
@@ -87,6 +66,7 @@ export const create = async (req, res) => {
 
     return sendDataResponse(res, 201, createdUser)
   } catch (error) {
+
     return sendErrorResponse(res, 500, 'Unable to create new user')
   }
 }
@@ -94,7 +74,6 @@ export const create = async (req, res) => {
 export const getById = async (req, res) => {
   const id = parseInt(req.params.id)
   try {
-    
     const foundUser = await User.findById(id)
     if (!foundUser) {
       return sendErrorResponse(res, 404, 'User not found')
@@ -106,7 +85,6 @@ export const getById = async (req, res) => {
 }
 
 export const getAll = async (req, res) => {
-  // eslint-disable-next-line camelcase
   const { firstName, lastName } = req.query
 
   let foundUsers
@@ -161,19 +139,17 @@ export const updateById = async (req, res) => {
   const {
     email,
     password,
-    cohortId,
     role,
     firstName,
     lastName,
     bio,
-    githubUrl
   } = req.body
   const id = parseInt(req.params.id)
   const userToUpdate = {}
   const profileToUpdate = {}
 
-  if (cohortId || role) {
-    if (req.user.role !== 'TEACHER') {
+  if (role) {
+    if (req.user.role !== 'ADMNIN') {
       return sendDataResponse(res, 403, {
         authorization: 'You are not authorized to perform this action'
       })
@@ -195,9 +171,6 @@ export const updateById = async (req, res) => {
   if (password) {
     userToUpdate.password = password
   }
-  if (cohortId) {
-    userToUpdate.cohortId = cohortId
-  }
   if (role) {
     userToUpdate.role = role
   }
@@ -210,9 +183,6 @@ export const updateById = async (req, res) => {
   if (bio) {
     profileToUpdate.bio = bio
   }
-  if (githubUrl) {
-    profileToUpdate.githubUrl = githubUrl
-  }
   try {
     const updatedUser = await User.updateUserDetails(id, userToUpdate)
     const updatedProfile = await User.updateProfileDetails(id, profileToUpdate)
@@ -223,4 +193,3 @@ export const updateById = async (req, res) => {
     return sendErrorResponse(res, 500, 'unable to update user and/or profile')
   }
 }
-

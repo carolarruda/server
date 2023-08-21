@@ -183,16 +183,26 @@ export default class User {
     return createdProfile
   }
 
+
+
   static async updateUserDetails(id, user) {
+    
+    const passwordHash = await bcrypt.hash(user.password, 8)
     const query = {
       where: {
         id
       },
       data: {
         email: user.email,
-        password: user.password,
+        password: passwordHash,
         role: user.role
+      },
+      select: {
+        id: true,
+        email: true,
+        role: true
       }
+     
     }
     const updatedUser = await dbClient.user.update(query)
     return updatedUser
@@ -207,9 +217,29 @@ export default class User {
         firstName: profile.firstName,
         lastName: profile.lastName,
         bio: profile.bio
-      }
+      },
+    
     }
     const updatedProfile = await dbClient.profile.update(query)
+
     return updatedProfile
   }
+}
+
+
+export async function deleteUser(userId) {
+  await dbClient.profile.delete({
+    where: {
+      id: userId
+    }
+  });
+  console.log(`delete`);
+  return await dbClient.user.delete({
+    where: {
+      id: userId
+    },
+    include: {
+      profile: true
+    }
+  })
 }

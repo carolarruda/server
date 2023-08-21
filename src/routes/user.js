@@ -1,9 +1,14 @@
 import { Router } from 'express'
-import { getAll, create } from '../controllers/user.js'
+import { getAll, create, getById, updateById, deleteById } from '../controllers/user.js'
+import { validateAuth, validateAdmnin } from '../middleware/auth.js'
 
 const router = Router()
 
-router.get('/', getAll)
 router.post('/', create)
+router.get('/', validateAuth, getAll )
+router.get('/:id', validateAuth, getById)
+router.patch('/:id', validateAuth, updateById)
+router.delete('/:id', validateAuth, validateAdmnin, deleteById)
+
 
 export default router

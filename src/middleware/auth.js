@@ -3,12 +3,12 @@ import { JWT_SECRET } from '../utils/config.js'
 import jwt from 'jsonwebtoken'
 import User from '../domain/user.js'
 
-export async function validateTeacherRole(req, res, next) {
+export async function validateAdmnin(req, res, next) {
   if (!req.user) {
     return sendErrorResponse(res, 500, 'Unable to verify user')
   }
 
-  if (req.user.role !== 'TEACHER') {
+  if (req.user.role !== 'ADMNIN') {
     return sendDataResponse(res, 403, {
       authorization: 'You are not authorized to perform this action'
     })
@@ -17,7 +17,8 @@ export async function validateTeacherRole(req, res, next) {
   next()
 }
 
-export async function validateAuthentication(req, res, next) {
+export async function validateAuth(req, res, next) {
+
   const header = req.header('authorization')
 
   if (!header) {

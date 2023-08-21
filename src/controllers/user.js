@@ -2,6 +2,7 @@ import User from '../domain/user.js'
 import { emailValidation } from '../utils/emailValidation.js'
 import { passwordValidation } from '../utils/passwordValidation.js'
 import { sendDataResponse, sendErrorResponse } from '../utils/responses.js'
+import { deleteUser } from '../domain/user.js'
 
 const validatePasswordLength = (password) => {
   if (password.length < 8) {
@@ -36,7 +37,6 @@ export const create = async (req, res) => {
   const passwordValidate = validatePasswordLength(password)
 
   const userToCreate = await User.fromJson(req.body)
-  console.log(userToCreate)
 
   try {
     if (passwordValidate.status === 'error') {
@@ -136,6 +136,7 @@ export const createProfile = async (req, res) => {
 }
 
 export const updateById = async (req, res) => {
+
   const {
     email,
     password,
@@ -193,3 +194,28 @@ export const updateById = async (req, res) => {
     return sendErrorResponse(res, 500, 'unable to update user and/or profile')
   }
 }
+
+export const deleteById  = async (req, res) => {
+  const userId = parseInt(req.params.id)
+  const userRole = req.user.role
+
+  try {
+    const foundUser = await User.findById(userId)
+    if (!foundUser) {
+      return sendErrorResponse(res, 404, 'User not found')
+    }
+    if (userRole !== 'ADMNIN') {
+      return sendErrorResponse(
+        res,
+        403,
+        'You are unauthorized to delete this post'
+      )
+    }
+    const deletingUser = await deleteUser(userId)
+    return sendDataResponse(res, 200, deletingUser)
+  } catch (e) {
+    console.log(e);
+    return sendErrorResponse(res, 500, 'Unable to get user')
+  }
+ }
+

@@ -38,8 +38,8 @@ model Recipe {
     imageUrl     String?
     rating       Int?
     courseType   String?
-    prepTime     DateTime?
-    cookTime     DateTime?
+    prepTime     Int?
+    cookTime     Int?
     servings     Int?
     ingredients  String
     instructions String

@@ -1,4 +1,4 @@
-import dbClient from '../utils/dbClient.js'
+import dbClient from "../utils/dbClient.js";
 
 export async function createRecipe(
   title,
@@ -29,14 +29,25 @@ export async function createRecipe(
       notes,
       user: {
         connect: {
-          id: userId
-        }
-      }
+          id: userId,
+        },
+      },
     },
-    select: {
-      id: true,
-      title: true,
-      user: true
-    }
-  })
+  });
+}
+
+export async function getAllRecipes() {
+  return await dbClient.recipe.findMany({});
+}
+
+export async function getRecipeId(id) {
+  return await dbClient.recipe.findUnique({
+    where: { id: id },
+  });
+}
+
+export async function getRecipePersonal(userId) {
+  return await dbClient.recipe.findMany({
+    where: { userId: userId },
+  });
 }

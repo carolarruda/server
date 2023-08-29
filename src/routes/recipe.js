@@ -1,12 +1,15 @@
-import { Router } from 'express'
+import { Router } from "express";
 
-import { create } from '../controllers/recipe.js'
+import { create, get, getRecipe, getMyRecipes } from "../controllers/recipe.js";
 
-import { validateAuth } from '../middleware/auth.js'
+import { validateAuth } from "../middleware/auth.js";
 
-const router = Router()
+const router = Router();
 
-router.get('/')
-router.post('/', validateAuth, create)
 
-export default router
+router.get("/personal", validateAuth, getMyRecipes);
+router.get("/:id", getRecipe);
+router.get("/", get);
+router.post("/", validateAuth, create);
+
+export default router;

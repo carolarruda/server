@@ -57,3 +57,36 @@ export async function deleteRecipeById(id) {
     where: { id: id },
   });
 }
+
+export async function UpdateRecipe(
+  recipeId, 
+  title,
+  imageUrl,
+  rating,
+  courseType,
+  prepTime,
+  cookTime,
+  servings,
+  ingredients,
+  instructions,
+  notes
+) {
+  const UpdateOnRecipe = await dbClient.recipe.update({
+    where: {
+      id: recipeId,
+    },
+    data: {
+      title,
+      imageUrl,
+      rating,
+      courseType,
+      prepTime,
+      cookTime,
+      servings,
+      ingredients,
+      instructions,
+      notes,
+    },
+  });
+  return UpdateOnRecipe;
+}

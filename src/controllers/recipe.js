@@ -1,6 +1,13 @@
 import { sendDataResponse, sendErrorResponse } from "../utils/responses.js";
 
-import { createRecipe, getAllRecipes, getRecipeId, getRecipePersonal, deleteRecipeById } from "../domain/recipe.js";
+import {
+  createRecipe,
+  getAllRecipes,
+  getRecipeId,
+  getRecipePersonal,
+  deleteRecipeById,
+  UpdateRecipe,
+} from "../domain/recipe.js";
 
 export const get = async (req, res) => {
   try {
@@ -20,7 +27,7 @@ export const get = async (req, res) => {
 };
 
 export const getRecipe = async (req, res) => {
-  const id  = Number(req.params.id);
+  const id = Number(req.params.id);
 
   try {
     const gettingRecipe = await getRecipeId(id);
@@ -33,7 +40,7 @@ export const getRecipe = async (req, res) => {
   }
 };
 
-export const getMyRecipes = async(req, res)=> {
+export const getMyRecipes = async (req, res) => {
   const userId = req.user.id;
   try {
     const gettingMyRecipes = await getRecipePersonal(userId);
@@ -44,7 +51,7 @@ export const getMyRecipes = async(req, res)=> {
     console.log(error);
     return sendErrorResponse(res, 500, "Unable to get your recipes");
   }
-}
+};
 
 export const create = async (req, res) => {
   const {
@@ -91,7 +98,7 @@ export const create = async (req, res) => {
 };
 
 export const deleteRecipe = async (req, res) => {
-  const id  = Number(req.params.id);
+  const id = Number(req.params.id);
   try {
     const deletingRecipe = await deleteRecipeById(id);
     return sendDataResponse(res, 200, {
@@ -100,5 +107,41 @@ export const deleteRecipe = async (req, res) => {
   } catch (error) {
     return sendErrorResponse(res, 500, "Unable to get delete recipe");
   }
+};
 
-}
+export const editRecipe = async (req, res) => {
+  const {
+    title,
+    imageUrl,
+    rating,
+    courseType,
+    prepTime,
+    cookTime,
+    servings,
+    ingredients,
+    instructions,
+    notes,
+  } = req.body;
+  const recipeId = parseInt(req.params.id);
+
+  try {
+    const updatingRecipe = await UpdateRecipe(
+      recipeId,
+      title,
+      imageUrl,
+      rating,
+      courseType,
+      prepTime,
+      cookTime,
+      servings,
+      ingredients,
+      instructions,
+      notes
+    );
+
+    return sendDataResponse(res, 200, updatingRecipe);
+  } catch (error) {
+    console.error(error);
+    return sendErrorResponse(res, 500, "unable to update recipe");
+  }
+};

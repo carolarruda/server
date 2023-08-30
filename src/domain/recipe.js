@@ -51,3 +51,9 @@ export async function getRecipePersonal(userId) {
     where: { userId: userId },
   });
 }
+
+export async function deleteRecipeById(id) {
+  return await dbClient.recipe.delete({
+    where: { id: id },
+  });
+}

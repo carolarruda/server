@@ -28,6 +28,7 @@ model Profile {
     firstName String
     lastName  String
     bio       String?
+    phone     String?
     user      User    @relation(fields: [userId], references: [id])
 }
 

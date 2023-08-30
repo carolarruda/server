@@ -1,6 +1,6 @@
 import { sendDataResponse, sendErrorResponse } from "../utils/responses.js";
 
-import { createRecipe, getAllRecipes, getRecipeId, getRecipePersonal } from "../domain/recipe.js";
+import { createRecipe, getAllRecipes, getRecipeId, getRecipePersonal, deleteRecipeById } from "../domain/recipe.js";
 
 export const get = async (req, res) => {
   try {
@@ -14,6 +14,7 @@ export const get = async (req, res) => {
     }
     return sendDataResponse(res, 200, gettingRecipes);
   } catch (e) {
+    console.log(error);
     return sendErrorResponse(res, 500, "Unable to get recipes");
   }
 };
@@ -27,6 +28,7 @@ export const getRecipe = async (req, res) => {
       recipe: gettingRecipe,
     });
   } catch (error) {
+    console.log(error);
     return sendErrorResponse(res, 500, "Unable to get recipe");
   }
 };
@@ -39,6 +41,7 @@ export const getMyRecipes = async(req, res)=> {
       recipes: gettingMyRecipes,
     });
   } catch (error) {
+    console.log(error);
     return sendErrorResponse(res, 500, "Unable to get your recipes");
   }
 }
@@ -86,3 +89,16 @@ export const create = async (req, res) => {
     return sendErrorResponse(res, 500, "Unable to create recipe");
   }
 };
+
+export const deleteRecipe = async (req, res) => {
+  const id  = Number(req.params.id);
+  try {
+    const deletingRecipe = await deleteRecipeById(id);
+    return sendDataResponse(res, 200, {
+      recipe: deletingRecipe,
+    });
+  } catch (error) {
+    return sendErrorResponse(res, 500, "Unable to get delete recipe");
+  }
+
+}

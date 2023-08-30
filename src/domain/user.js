@@ -11,13 +11,14 @@ export default class User {
       user.profile?.lastName,
       user.email,
       user.profile?.bio,
+      user.profile?.phone,
       user.password,
       user.role
     )
   }
 
   static async fromJson(json) {
-    const { firstName, lastName, email, bio, password } = json
+    const { firstName, lastName, email, bio, password, phone } = json
 
     const passwordHash = await bcrypt.hash(password, 8)
 
@@ -27,6 +28,7 @@ export default class User {
       lastName,
       email,
       bio,
+      phone,
       passwordHash
     )
   }
@@ -37,6 +39,7 @@ export default class User {
     lastName,
     email,
     bio,
+    phone,
     passwordHash = null,
     role = 'GUEST'
   ) {
@@ -45,6 +48,7 @@ export default class User {
     this.lastName = lastName
     this.email = email
     this.bio = bio
+    this.phone = phone
     this.passwordHash = passwordHash
     this.role = role
   }
@@ -57,7 +61,8 @@ export default class User {
         firstName: this.firstName,
         lastName: this.lastName,
         email: this.email,
-        biography: this.bio
+        biography: this.bio,
+        phone: this.phone
       }
     }
     return user
@@ -76,7 +81,8 @@ export default class User {
         create: {
           firstName: this.firstName,
           lastName: this.lastName,
-          bio: this.bio
+          bio: this.bio,
+          phone: this.phone
         }
       }
     }

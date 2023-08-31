@@ -241,8 +241,9 @@ export default class User {
       where: {
         id: userId
       },
-      include: {
-        profile: true
+      select: {
+        id: true,
+        email: true,
       }
     })
   }

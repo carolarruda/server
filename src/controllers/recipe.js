@@ -21,7 +21,6 @@ export const get = async (req, res) => {
     }
     return sendDataResponse(res, 200, gettingRecipes);
   } catch (e) {
-    console.log(error);
     return sendErrorResponse(res, 500, "Unable to get recipes");
   }
 };

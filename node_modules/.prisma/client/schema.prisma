@@ -15,6 +15,7 @@ model User {
     role      Role      @default(GUEST)
     profile   Profile?
     recipe    Recipe[]
+    avatar    String?
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
     Website   Website[]

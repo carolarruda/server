@@ -39,7 +39,6 @@ export const create = async (req, res) => {
 
   try {
     if (passwordValidate.status === "error") {
-      console.log(passwordValidate.status);
       return sendErrorResponse(res, 400, passwordValidate.message);
     }
 
@@ -65,6 +64,7 @@ export const create = async (req, res) => {
 
     return sendDataResponse(res, 201, createdUser);
   } catch (error) {
+    console.log(error);
     return sendErrorResponse(res, 500, "Unable to create new user");
   }
 };
@@ -199,5 +199,22 @@ export const deleteById = async (req, res) => {
   } catch (e) {
     console.log(e);
     return sendErrorResponse(res, 500, "Unable to get user");
+  }
+};
+
+export const getPicById = async (req, res) => {
+  const id = parseInt(req.params.id);
+
+  try {
+    const foundUser = await User.findById(id);
+    if (!foundUser) {
+      return sendErrorResponse(res, 404, "User not found");
+    }
+
+    const gettingPic = await User.findByAvatarbyId(id);
+    return sendDataResponse(res, 200, gettingPic);
+  } catch (e) {
+    console.log(e);
+    return sendErrorResponse(res, 500, "Unable to get avatar");
   }
 };

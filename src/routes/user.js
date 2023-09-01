@@ -2,7 +2,7 @@ import { Router } from "express";
 import User from "../domain/user.js";
 import multer from "multer";
 import admin from "firebase-admin";
-import path from "path";
+
 
 import serviceAccount from "../serviceAccountKey.json" assert { type: "json" };
 import {

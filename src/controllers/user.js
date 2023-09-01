@@ -36,23 +36,29 @@ export const create = async (req, res) => {
   const passwordValidate = validatePasswordLength(password);
 
   const userToCreate = await User.fromJson(req.body);
+  console.log(userToCreate);
 
   try {
     if (passwordValidate.status === "error") {
+      console.log(passwordValidate.status);
       return sendErrorResponse(res, 400, passwordValidate.message);
     }
 
     const existingUser = await User.findByEmail(userToCreate.email);
+
+    console.log(existingUser);
 
     if (existingUser) {
       return sendErrorResponse(res, 400, "Email already in use");
     }
 
     if (!emailValidation(userToCreate.email)) {
+      console.log(!emailValidation(userToCreate.email));
       return sendErrorResponse(res, 400, "Email not valid");
     }
 
     if (!passwordValidation(password)) {
+      console.log(!passwordValidation(password))
       return sendErrorResponse(
         res,
         400,

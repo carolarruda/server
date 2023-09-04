@@ -3,4 +3,5 @@ node_modules
 .idea/
 sendgrid.env
 sendgrid.env
+serviceAccountKey.json
 .DS_Store

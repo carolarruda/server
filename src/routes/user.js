@@ -17,7 +17,7 @@ import { validateAuth, validateAdmnin } from "../middleware/auth.js";
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  storageBucket: "carls-3b6c3.appspot.com",
+  storageBucket: "carls-2.appspot.com",
 });
 
 const router = Router();

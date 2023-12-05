@@ -1,10 +1,8 @@
 import { Router } from "express";
 import User from "../domain/user.js";
 import multer from "multer";
-import admin from "firebase-admin";
-
-
-import serviceAccount from "../serviceAccountKey.json" assert { type: "json" };
+import admin from 'firebase-admin'
+import serviceAccount  from "../serviceKey.json" assert { type: 'json' }; ;
 import {
   getAll,
   create,
@@ -13,12 +11,13 @@ import {
   deleteById,
   getPicById,
 } from "../controllers/user.js";
-import { validateAuth, validateAdmnin } from "../middleware/auth.js";
+import { validateAuth } from "../middleware/auth.js";
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   storageBucket: "carls-2.appspot.com",
 });
+
 
 const router = Router();
 

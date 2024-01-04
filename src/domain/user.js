@@ -11,7 +11,8 @@ export default class User {
       user.profile?.bio,
       user.profile?.phone,
       user.password,
-      user.role
+      user.role,
+      user.avatar
     );
   }
 
@@ -30,6 +31,7 @@ export default class User {
     email,
     bio,
     phone,
+    avatar,
     passwordHash = null,
     role = "GUEST"
   ) {
@@ -53,7 +55,7 @@ export default class User {
         email: this.email,
         biography: this.bio,
         phone: this.phone,
-        avatar: null,
+        avatar: this.avatar,
       },
     };
     return user;
@@ -73,6 +75,7 @@ export default class User {
           lastName: this.lastName,
           bio: this.bio,
           phone: this.phone,
+          avatar: this.avatar
         },
       };
     }

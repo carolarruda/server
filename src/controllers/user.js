@@ -140,7 +140,7 @@ export const createProfile = async (req, res) => {
 };
 
 export const updateById = async (req, res) => {
-  const { email, password, role, firstName, lastName, bio } = req.body;
+  const { email, password, role, firstName, lastName, bio, avatar } = req.body;
   const id = parseInt(req.params.id);
   const userToUpdate = {};
   const profileToUpdate = {};
@@ -179,6 +179,10 @@ export const updateById = async (req, res) => {
   }
   if (bio) {
     profileToUpdate.bio = bio;
+  }
+  if(avatar){
+    profileToUpdate.avatar = avatar;
+
   }
   try {
     const updatedUser = await User.updateUserDetails(id, userToUpdate);

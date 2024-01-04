@@ -21,7 +21,7 @@ export default class User {
 
     const passwordHash = await bcrypt.hash(password, 8);
 
-    return new User(null, firstName, lastName, email, bio, phone, passwordHash);
+    return new User(null, firstName, lastName, email, bio, phone, passwordHash, avatar);
   }
 
   constructor(
@@ -31,9 +31,10 @@ export default class User {
     email,
     bio,
     phone,
-    avatar,
+
     passwordHash = null,
-    role = "GUEST"
+    role = "GUEST",
+    avatar
   ) {
     this.id = id;
     this.firstName = firstName;
@@ -43,6 +44,7 @@ export default class User {
     this.phone = phone;
     this.passwordHash = passwordHash;
     this.role = role;
+    this.avatar = avatar
   }
 
   toJSON() {
@@ -75,7 +77,7 @@ export default class User {
           lastName: this.lastName,
           bio: this.bio,
           phone: this.phone,
-          avatar: this.avatar
+          avatar: this.avatar,
         },
       };
     }

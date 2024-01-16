@@ -43,7 +43,8 @@ export async function getAllRecipes() {
         id: true,
         email: true,
         role: true,
-        profile: true
+        profile: true,
+        avatar: true
       },
     },
   },});

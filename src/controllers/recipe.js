@@ -1,5 +1,8 @@
 import { sendDataResponse, sendErrorResponse } from "../utils/responses.js";
 
+import multer from "multer";
+import serviceAccount  from "../../serviceKey.json" assert { type: 'json' } ;
+
 import {
   createRecipe,
   getAllRecipes,
@@ -64,7 +67,7 @@ export const create = async (req, res) => {
     servings,
     ingredients,
     instructions,
-    notes,
+    description,
   } = req.body;
   const userId = req.user.id;
   if (!title || title === "" || typeof title !== "string") {
@@ -83,7 +86,7 @@ export const create = async (req, res) => {
       servings,
       ingredients,
       instructions,
-      notes,
+      description,
       userId
     );
 
@@ -119,7 +122,7 @@ export const editRecipe = async (req, res) => {
     servings,
     ingredients,
     instructions,
-    notes,
+    description,
   } = req.body;
   const recipeId = parseInt(req.params.id);
 
@@ -135,7 +138,7 @@ export const editRecipe = async (req, res) => {
       servings,
       ingredients,
       instructions,
-      notes
+      description
     );
 
     return sendDataResponse(res, 200, updatingRecipe);

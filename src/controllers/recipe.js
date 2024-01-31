@@ -67,7 +67,7 @@ export const create = async (req, res) => {
     servings,
     ingredients,
     instructions,
-    description,
+    notes,
   } = req.body;
   const userId = req.user.id;
   if (!title || title === "" || typeof title !== "string") {
@@ -86,7 +86,7 @@ export const create = async (req, res) => {
       servings,
       ingredients,
       instructions,
-      description,
+      notes,
       userId
     );
 
@@ -122,7 +122,7 @@ export const editRecipe = async (req, res) => {
     servings,
     ingredients,
     instructions,
-    description,
+    notes,
   } = req.body;
   const recipeId = parseInt(req.params.id);
 
@@ -138,7 +138,7 @@ export const editRecipe = async (req, res) => {
       servings,
       ingredients,
       instructions,
-      description
+      notes
     );
 
     return sendDataResponse(res, 200, updatingRecipe);

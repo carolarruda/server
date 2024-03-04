@@ -32,11 +32,7 @@ async function validateUserId(req, res) {
 }
 
 export const create = async (req, res) => {
-  const { password } = req.body;
-  const passwordValidate = validatePasswordLength(password);
-
   const userToCreate = await User.fromJson(req.body);
-  console.log(userToCreate);
 
   try {
     if (passwordValidate.status === "error") {
@@ -45,8 +41,6 @@ export const create = async (req, res) => {
     }
 
     const existingUser = await User.findByEmail(userToCreate.email);
-
-    console.log(existingUser);
 
     if (existingUser) {
       return sendErrorResponse(res, 400, "Email already in use");
@@ -58,7 +52,7 @@ export const create = async (req, res) => {
     }
 
     if (!passwordValidation(password)) {
-      console.log(!passwordValidation(password))
+      console.log(!passwordValidation(password));
       return sendErrorResponse(
         res,
         400,
@@ -110,7 +104,9 @@ export const getAll = async (req, res) => {
 
 export const createProfile = async (req, res) => {
   const id = parseInt(req.params.id);
-  const { firstName, lastName, bio, githubUrl } = req.body;
+  const { firstName, lastName, bio, githubUrl, avatar } = req.body;
+
+  console.log("profile", avatar);
   validateUserId(req, res);
   if (!firstName || !lastName) {
     return sendErrorResponse(res, 400, "First and Last names are required");
@@ -119,6 +115,7 @@ export const createProfile = async (req, res) => {
     create: {
       firstName: firstName,
       lastName: lastName,
+      avatar: avatar,
     },
   };
   if (bio) {
@@ -180,9 +177,8 @@ export const updateById = async (req, res) => {
   if (bio) {
     profileToUpdate.bio = bio;
   }
-  if(avatar){
+  if (avatar) {
     profileToUpdate.avatar = avatar;
-
   }
   try {
     const updatedUser = await User.updateUserDetails(id, userToUpdate);

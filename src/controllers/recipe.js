@@ -1,7 +1,5 @@
 import { sendDataResponse, sendErrorResponse } from "../utils/responses.js";
 
-import multer from "multer";
-import serviceAccount  from "../../serviceKey.json" assert { type: 'json' } ;
 
 import {
   createRecipe,
@@ -13,7 +11,9 @@ import {
 } from "../domain/recipe.js";
 
 export const get = async (req, res) => {
+
   try {
+
     const gettingRecipes = await getAllRecipes();
     if (!gettingRecipes) {
       return sendErrorResponse(
@@ -37,7 +37,6 @@ export const getRecipe = async (req, res) => {
       recipe: gettingRecipe,
     });
   } catch (error) {
-    console.log(error);
     return sendErrorResponse(res, 500, "Unable to get recipe");
   }
 };
@@ -50,7 +49,6 @@ export const getMyRecipes = async (req, res) => {
       recipes: gettingMyRecipes,
     });
   } catch (error) {
-    console.log(error);
     return sendErrorResponse(res, 500, "Unable to get your recipes");
   }
 };

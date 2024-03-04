@@ -17,11 +17,22 @@ export default class User {
   }
 
   static async fromJson(json) {
-    const { firstName, lastName, email, bio, password, phone, avatar } = json;
+    const { firstName, lastName, email, bio, password, phone, avatar, role } =
+      json;
 
     const passwordHash = await bcrypt.hash(password, 8);
 
-    return new User(null, firstName, lastName, email, bio, phone, passwordHash, avatar);
+    return new User(
+      null,
+      firstName,
+      lastName,
+      email,
+      bio,
+      phone,
+      passwordHash,
+      role,
+      avatar
+    );
   }
 
   constructor(
@@ -31,7 +42,6 @@ export default class User {
     email,
     bio,
     phone,
-
     passwordHash = null,
     role = "GUEST",
     avatar
@@ -44,7 +54,7 @@ export default class User {
     this.phone = phone;
     this.passwordHash = passwordHash;
     this.role = role;
-    this.avatar = avatar
+    this.avatar = avatar;
   }
 
   toJSON() {
@@ -68,6 +78,7 @@ export default class User {
       email: this.email,
       password: this.passwordHash,
       role: this.role,
+      avatar: this.avatar,
     };
 
     if (this.firstName && this.lastName) {
@@ -77,7 +88,6 @@ export default class User {
           lastName: this.lastName,
           bio: this.bio,
           phone: this.phone,
-          avatar: this.avatar,
         },
       };
     }
@@ -244,7 +254,7 @@ export default class User {
   static async deleteUser(userId) {
     await dbClient.profile.delete({
       where: {
-        id: userId,
+        userId: userId,
       },
     });
     return await dbClient.user.delete({

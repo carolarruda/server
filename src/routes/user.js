@@ -33,6 +33,7 @@ const upload = multer({
   },
 });
 router.post("/", create);
+
 router.post(
   "/:id/upload",
   validateAuth,
@@ -74,11 +75,12 @@ router.post(
   }
 );
 
+
 router.get("/", validateAuth, getAll);
 router.get("/:id", validateAuth, getById);
 router.patch("/:id", validateAuth, updateById);
 router.get("/avatar/:id", validateAuth, getPicById);
-router.delete("/:id", validateAuth, deleteById);
+router.delete("/:id",  deleteById);
 router.get("/:id/image", async (req, res) => {
   try {
     const incident = await Incident.findById(req.params.id);

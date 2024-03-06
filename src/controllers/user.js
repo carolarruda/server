@@ -2,6 +2,7 @@ import User from "../domain/user.js";
 import { emailValidation } from "../utils/emailValidation.js";
 import { passwordValidation } from "../utils/passwordValidation.js";
 import { sendDataResponse, sendErrorResponse } from "../utils/responses.js";
+import { getSubscriber, addSubscriber } from "../domain/user.js";
 
 const validatePasswordLength = (password) => {
   if (password.length < 8) {
@@ -36,7 +37,6 @@ export const create = async (req, res) => {
   const passwordValidate = validatePasswordLength(password);
 
   const userToCreate = await User.fromJson(req.body);
-  console.log(userToCreate);
 
   try {
     if (passwordValidate.status === "error") {
@@ -228,3 +228,15 @@ export const getPicById = async (req, res) => {
     return sendErrorResponse(res, 500, "Unable to get avatar");
   }
 };
+
+export const subscribe = async (req, res) => {
+  const { email } = req.body;
+  console.log("here");
+  const foundSubscriber = await getSubscriber(email);
+  if (!foundSubscriber) {
+    const createSubscriber = await addSubscriber(email);
+    return sendDataResponse(res, 201, createSubscriber);
+  }
+  return sendErrorResponse(res, 404, "User already in newsletter");
+};
+

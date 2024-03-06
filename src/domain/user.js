@@ -290,3 +290,20 @@ export default class User {
     });
   }
 }
+
+
+export async function getSubscriber(email) {
+  return await dbClient.newsletter.findFirst({
+    where: {
+      email: email,
+    },
+  });
+}
+
+export async function addSubscriber(email) {
+  return await dbClient.newsletter.create({
+    data: {
+      email: email,
+    },
+  });
+}

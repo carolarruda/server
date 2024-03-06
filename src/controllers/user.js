@@ -32,12 +32,16 @@ async function validateUserId(req, res) {
 }
 
 export const create = async (req, res) => {
+  const { password } = req.body;
+  const passwordValidate = validatePasswordLength(password);
+
   const userToCreate = await User.fromJson(req.body);
+  console.log(userToCreate);
 
   try {
-    if (validatePasswordLength.status === "error") {
-      console.log(validatePasswordLength.status);
-      return sendErrorResponse(res, 400, validatePasswordLength.message);
+    if (passwordValidate.status === "error") {
+      console.log(passwordValidate.status);
+      return sendErrorResponse(res, 400, passwordValidate.message);
     }
 
     const existingUser = await User.findByEmail(userToCreate.email);

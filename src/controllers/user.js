@@ -1,7 +1,6 @@
 import User from "../domain/user.js";
 import { emailValidation } from "../utils/emailValidation.js";
 import { passwordValidation } from "../utils/passwordValidation.js";
-import { passwordValidate } from "../utils/passwordValidation.js";
 import { sendDataResponse, sendErrorResponse } from "../utils/responses.js";
 
 const validatePasswordLength = (password) => {
@@ -36,9 +35,9 @@ export const create = async (req, res) => {
   const userToCreate = await User.fromJson(req.body);
 
   try {
-    if (passwordValidate.status === "error") {
-      console.log(passwordValidate.status);
-      return sendErrorResponse(res, 400, passwordValidate.message);
+    if (validatePasswordLength.status === "error") {
+      console.log(validatePasswordLength.status);
+      return sendErrorResponse(res, 400, validatePasswordLength.message);
     }
 
     const existingUser = await User.findByEmail(userToCreate.email);

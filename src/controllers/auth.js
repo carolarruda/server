@@ -69,7 +69,6 @@ export const loginGoogle = async (req, res) => {
 
     const payload = ticket.getPayload();
 
-
     const { email, given_name, family_name, picture } = payload;
 
     let user = await User.findByEmail(email);
@@ -81,7 +80,7 @@ export const loginGoogle = async (req, res) => {
         firstName: given_name,
         lastName: family_name,
         avatar: picture,
-        role: "GUEST"
+        role: "GUEST",
       };
       const userToCreate = await User.fromJson(userGoogle);
       const createdUser = await userToCreate.save();

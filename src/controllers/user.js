@@ -1,6 +1,7 @@
 import User from "../domain/user.js";
 import { emailValidation } from "../utils/emailValidation.js";
 import { passwordValidation } from "../utils/passwordValidation.js";
+import { passwordValidate } from "../utils/passwordValidation.js";
 import { sendDataResponse, sendErrorResponse } from "../utils/responses.js";
 
 const validatePasswordLength = (password) => {

@@ -140,6 +140,13 @@ exports.Prisma.CommentScalarFieldEnum = makeEnum({
   updatedAt: 'updatedAt'
 });
 
+exports.Prisma.NewsletterScalarFieldEnum = makeEnum({
+  id: 'id',
+  email: 'email',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+});
+
 exports.Prisma.SortOrder = makeEnum({
   asc: 'asc',
   desc: 'desc'
@@ -160,7 +167,8 @@ exports.Prisma.ModelName = makeEnum({
   Recipe: 'Recipe',
   Website: 'Website',
   Like: 'Like',
-  Comment: 'Comment'
+  Comment: 'Comment',
+  Newsletter: 'Newsletter'
 });
 
 /**

@@ -11,7 +11,7 @@ export async function createRecipe(
   servings,
   ingredients,
   instructions,
-  notes,
+  description,
   userId
 ) {
   return await dbClient.recipe.create({
@@ -26,7 +26,7 @@ export async function createRecipe(
       servings,
       ingredients,
       instructions,
-      notes,
+      description,
       user: {
         connect: {
           id: userId,
@@ -110,7 +110,7 @@ export async function UpdateRecipe(
   servings,
   ingredients,
   instructions,
-  notes
+  description
 ) {
   const UpdateOnRecipe = await dbClient.recipe.update({
     where: {
@@ -126,7 +126,7 @@ export async function UpdateRecipe(
       servings,
       ingredients,
       instructions,
-      notes,
+      description,
     },
     include: {
       user: {

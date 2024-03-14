@@ -38,7 +38,7 @@ model Recipe {
     title        String
     imageUrl     String?
     rating       Int?
-    courseType   String?
+    courseType   String[]
     prepTime     Int?
     cookTime     Int?
     servings     Int?
